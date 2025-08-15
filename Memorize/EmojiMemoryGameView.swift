@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct EmojiMemoryGameView: View {
-    var viewModel: EmojiMemoryGame = EmojiMemoryGame()
+    @ObservedObject var viewModel: EmojiMemoryGame
     
-    @State var cardCount: Int = 4
     var body: some View {
         VStack {
             ScrollView {
                 cards
             }
-            Spacer()
-            cardCountAdjusters
+            Button("Shuffle") {
+                viewModel.shuffle()
+            }
         }
         .padding()
     }
@@ -32,32 +32,32 @@ struct EmojiMemoryGameView: View {
         }
         .foregroundStyle(.orange)
     }
-    var cardCountAdjusters: some View {
-        HStack {
-            cardRemover
-            Spacer()
-            cardAdder
-        }
-        .imageScale(.large)
-        .font(.largeTitle)
-    }
+//    var cardCountAdjusters: some View {
+//        HStack {
+//            cardRemover
+//            Spacer()
+//            cardAdder
+//        }
+//        .imageScale(.large)
+//        .font(.largeTitle)
+//    }
     
-    func cardCountAdjuster(by offset: Int, symbol: String) -> some View {
-        Button(action: {
-            cardCount += offset
-        }, label: {
-            Image(systemName: symbol)
-        })
-        .disabled(cardCount + offset < 1 || cardCount + offset > viewModel.cards.count)
-    }
+//    func cardCountAdjuster(by offset: Int, symbol: String) -> some View {
+//        Button(action: {
+//            cardCount += offset
+//        }, label: {
+//            Image(systemName: symbol)
+//        })
+//        .disabled(cardCount + offset < 1 || cardCount + offset > viewModel.cards.count)
+//    }
     
-    var cardRemover: some View {
-        cardCountAdjuster(by:-1, symbol: "rectangle.stack.badge.minus.fill")
-    }
-    
-    var cardAdder: some View {
-        cardCountAdjuster(by:+1, symbol: "rectangle.stack.badge.plus.fill")
-    }
+//    var cardRemover: some View {
+//        cardCountAdjuster(by:-1, symbol: "rectangle.stack.badge.minus.fill")
+//    }
+//    
+//    var cardAdder: some View {
+//        cardCountAdjuster(by:+1, symbol: "rectangle.stack.badge.plus.fill")
+//    }
 }
     
 
@@ -85,13 +85,13 @@ struct CardView: View {
         
     }
 }
-
-#Preview {
-    EmojiMemoryGameView()
-}
+//
+//#Preview {
+//    EmojiMemoryGameView()
+//}
 
 struct EmojiMemoryGameView_previews: PreviewProvider {
     static var previews: some View {
-        EmojiMemoryGameView()
+        EmojiMemoryGameView(viewModel: EmojiMemoryGame())
     }
 }
